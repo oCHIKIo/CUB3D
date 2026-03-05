@@ -660,8 +660,8 @@ The program validates everything before launching the game. All errors print to 
 
 ## Authors
 
-- **bchiki** — [GitHub](https://github.com/oCHIKIo)
-- **mhaddou** — [GitHub](https://github.com/haddoumounir)
+- **CHIKI Badreddine** — [GitHub](https://github.com/oCHIKIo)
+- **Haddou Mounir** — [GitHub](https://github.com/haddoumounir)
 
 ---
 
