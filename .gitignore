@@ -1,0 +1,11 @@
+# Build output
+cub3D
+*.o
+
+# MLX build artifacts
+src/mlx/*.o
+src/mlx/libmlx.a
+src/mlx/libmlx_Linux.a
+
+# macOS
+.DS_Store
