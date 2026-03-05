@@ -150,11 +150,11 @@ Each ray starts at the player's position and points in a direction determined by
 
 **Formula:**
 
-$$\text{camera\_x} = \frac{2x}{W} - 1$$
+$$\text{camera\\_x} = \frac{2x}{W} - 1$$
 
 This maps the current screen column `x` to a value between `-1` (left edge) and `+1` (right edge). The center of the screen is `0`.
 
-$$\text{ray\_dir} = \text{dir} + \text{plane} \times \text{camera\_x}$$
+$$\text{ray\\_dir} = \text{dir} + \text{plane} \times \text{camera\\_x}$$
 
 - `dir` = the direction the player is facing (a unit vector)
 - `plane` = the camera plane vector (perpendicular to `dir`), its length controls the FOV
@@ -167,7 +167,7 @@ $$\text{ray\_dir} = \text{dir} + \text{plane} \times \text{camera\_x}$$
 
 The **delta distances** determine how far a ray must travel to cross one grid line:
 
-$$\Delta_x = \left|\frac{1}{\text{ray\_dir\_x}}\right|, \quad \Delta_y = \left|\frac{1}{\text{ray\_dir\_y}}\right|$$
+$$\Delta_x = \left|\frac{1}{\text{ray\\_dir\\_x}}\right|, \quad \Delta_y = \left|\frac{1}{\text{ray\\_dir\\_y}}\right|$$
 
 If a ray direction component is `0`, we set the corresponding delta to a very large number (`1e30`) to avoid division by zero.
 
@@ -198,11 +198,11 @@ Step in whichever direction is closer:
 
 If the ray points right (`dir_x > 0`):
 
-$$\text{side\_dist\_x} = (\text{map\_x} + 1 - \text{pos\_x}) \times \Delta_x$$
+$$\text{side\\_dist\\_x} = (\text{map\\_x} + 1 - \text{pos\\_x}) \times \Delta_x$$
 
 If the ray points left (`dir_x < 0`):
 
-$$\text{side\_dist\_x} = (\text{pos\_x} - \text{map\_x}) \times \Delta_x$$
+$$\text{side\\_dist\\_x} = (\text{pos\\_x} - \text{map\\_x}) \times \Delta_x$$
 
 Same logic applies to Y.
 
@@ -227,11 +227,11 @@ Once a wall is hit, we need the **perpendicular distance** to it (not the Euclid
 
 If the wall was hit on the X-axis (`side == 0`):
 
-$$d_{\perp} = \frac{\text{map\_x} - \text{pos\_x} + \frac{1 - \text{step\_x}}{2}}{\text{ray\_dir\_x}}$$
+$$d_{\perp} = \frac{\text{map\\_x} - \text{pos\\_x} + \frac{1 - \text{step\\_x}}{2}}{\text{ray\\_dir\\_x}}$$
 
 If hit on the Y-axis (`side == 1`):
 
-$$d_{\perp} = \frac{\text{map\_y} - \text{pos\_y} + \frac{1 - \text{step\_y}}{2}}{\text{ray\_dir\_y}}$$
+$$d_{\perp} = \frac{\text{map\\_y} - \text{pos\\_y} + \frac{1 - \text{step\\_y}}{2}}{\text{ray\\_dir\\_y}}$$
 
 **Why perpendicular?** If we used the actual straight-line distance, walls would appear curved (fisheye distortion). The perpendicular distance measures only the component along the player's viewing direction, keeping walls straight.
 
@@ -243,12 +243,12 @@ $$d_{\perp} = \frac{\text{map\_y} - \text{pos\_y} + \frac{1 - \text{step\_y}}{2}
 
 **Wall height on screen:**
 
-$$\text{line\_height} = \frac{H}{d_{\perp}}$$
+$$\text{line\\_height} = \frac{H}{d_{\perp}}$$
 
 Where `H` is the screen height. The wall strip is then centered vertically:
 
-$$\text{draw\_start} = \frac{H}{2} - \frac{\text{line\_height}}{2}$$
-$$\text{draw\_end} = \frac{H}{2} + \frac{\text{line\_height}}{2}$$
+$$\text{draw\\_start} = \frac{H}{2} - \frac{\text{line\\_height}}{2}$$
+$$\text{draw\\_end} = \frac{H}{2} + \frac{\text{line\\_height}}{2}$$
 
 Both values are clamped to `[0, H-1]` to stay within screen bounds.
 
@@ -269,11 +269,11 @@ Both values are clamped to `[0, H-1]` to stay within screen bounds.
 
 The exact point where the ray hits the wall surface:
 
-$$\text{wall\_x} = \begin{cases} \text{pos\_y} + d_{\perp} \times \text{ray\_dir\_y} & \text{if side = 0 (X hit)} \\ \text{pos\_x} + d_{\perp} \times \text{ray\_dir\_x} & \text{if side = 1 (Y hit)} \end{cases}$$
+$$\text{wall\\_x} = \begin{cases} \text{pos\\_y} + d_{\perp} \times \text{ray\\_dir\\_y} & \text{if side = 0 (X hit)} \\ \text{pos\\_x} + d_{\perp} \times \text{ray\\_dir\\_x} & \text{if side = 1 (Y hit)} \end{cases}$$
 
-$$\text{wall\_x} = \text{wall\_x} - \lfloor\text{wall\_x}\rfloor \quad \text{(fractional part only)}$$
+$$\text{wall\\_x} = \text{wall\\_x} - \lfloor\text{wall\\_x}\rfloor \quad \text{(fractional part only)}$$
 
-$$\text{tex\_x} = \text{wall\_x} \times \text{TEXTURE\_SIZE}$$
+$$\text{tex\\_x} = \text{wall\\_x} \times \text{TEXTURE\\_SIZE}$$
 
 The `tex_x` is flipped in certain cases to ensure textures aren't mirrored.
 
@@ -281,11 +281,11 @@ The `tex_x` is flipped in certain cases to ensure textures aren't mirrored.
 
 For each pixel in the vertical wall strip:
 
-$$\text{step} = \frac{\text{TEXTURE\_SIZE}}{\text{line\_height}}$$
+$$\text{step} = \frac{\text{TEXTURE\\_SIZE}}{\text{line\\_height}}$$
 
-$$\text{tex\_pos} = (\text{draw\_start} - \frac{H}{2} + \frac{\text{line\_height}}{2}) \times \text{step}$$
+$$\text{tex\\_pos} = (\text{draw\\_start} - \frac{H}{2} + \frac{\text{line\\_height}}{2}) \times \text{step}$$
 
-$$\text{tex\_y} = \lfloor\text{tex\_pos}\rfloor \mod \text{TEXTURE\_SIZE}$$
+$$\text{tex\\_y} = \lfloor\text{tex\\_pos}\rfloor \mod \text{TEXTURE\\_SIZE}$$
 
 The `tex_pos` increments by `step` for each pixel drawn.
 
@@ -316,15 +316,15 @@ The player moves along their direction vector. Forward/backward moves along `dir
 
 **Forward/Backward:**
 
-$$\text{new\_x} = \text{pos\_x} + \text{dir\_x} \times \text{speed} \times \text{direction}$$
-$$\text{new\_y} = \text{pos\_y} + \text{dir\_y} \times \text{speed} \times \text{direction}$$
+$$\text{new\\_x} = \text{pos\\_x} + \text{dir\\_x} \times \text{speed} \times \text{direction}$$
+$$\text{new\\_y} = \text{pos\\_y} + \text{dir\\_y} \times \text{speed} \times \text{direction}$$
 
 Where `direction` is `+1` (forward) or `-1` (backward).
 
 **Strafing (left/right):**
 
-$$\text{new\_x} = \text{pos\_x} - \text{dir\_y} \times \text{speed} \times \text{direction}$$
-$$\text{new\_y} = \text{pos\_y} + \text{dir\_x} \times \text{speed} \times \text{direction}$$
+$$\text{new\\_x} = \text{pos\\_x} - \text{dir\\_y} \times \text{speed} \times \text{direction}$$
+$$\text{new\\_y} = \text{pos\\_y} + \text{dir\\_x} \times \text{speed} \times \text{direction}$$
 
 The strafe vector `(-dir_y, dir_x)` is perpendicular to the direction vector.
 
@@ -332,7 +332,7 @@ The strafe vector `(-dir_y, dir_x)` is perpendicular to the direction vector.
 
 Rotation uses a 2D rotation matrix to rotate both the direction and camera plane vectors:
 
-$$\begin{pmatrix} \text{dir\_x'} \\ \text{dir\_y'} \end{pmatrix} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} \text{dir\_x} \\ \text{dir\_y} \end{pmatrix}$$
+$$\begin{pmatrix} \text{dir\\_x'} \\ \text{dir\\_y'} \end{pmatrix} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} \text{dir\\_x} \\ \text{dir\\_y} \end{pmatrix}$$
 
 The same rotation is applied to the camera plane vector. The angle `θ` equals `ROTATION_SPEED * direction` per frame.
 
